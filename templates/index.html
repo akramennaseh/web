@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Email Coupon Sender</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#customerForm').submit(function(e) {
+                e.preventDefault();
+                $.ajax({
+                    type: 'POST',
+                    url: '/send_email',
+                    data: $('#customerForm').serialize(),
+                    success: function(response) {
+                        alert(response); // Display success/failure message
+
+                        // Clear form fields after sending email
+                        $('#customerForm')[0].reset();
+                    },
+                    error: function(xhr, status, error) {
+                        alert('Failed to send the email. Please check your mail configuration.');
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>Email Coupon Sender</h1>
+    <form id="customerForm" method="post">
+        <div id="customers">
+            <div>
+                <label for="customer_name">Customer Name:</label>
+                <input type="text" name="customer_name" required><br><br>
+                <label for="customer_email">Customer Email:</label>
+                <input type="email" name="customer_email" required><br><br>
+            </div>
+        </div>
+        <button type="submit">Send Email</button><br><br>
+    </form>
+    <form action="/view_data">
+        <button type="submit">View Customer Data</button>
+    </form>
+
+    <!-- Button to go to the Customer Info page -->
+    <form action="/get_customer_info">
+        <button type="submit">Customer Information</button>
+    </form>
+</body>
+</html>
